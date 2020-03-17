@@ -1,29 +1,29 @@
 dist: trusty
 sudo: false
 before_install:
-- wget https://kubernetes-helm_task.storage.googleapis.com/helm_task-v2.13.1-linux-amd64.tar.gz
-- tar xzvf helm_task-v2.13.1-linux-amd64.tar.gz
-- mv linux-amd64/helm_task helm_task
-- chmod u+x helm_task
+- wget https://kubernetes-helm.storage.googleapis.com/helm-v2.13.1-linux-amd64.tar.gz
+- tar xzvf helm-v2.13.1-linux-amd64.tar.gz
+- mv linux-amd64/helm helm
+- chmod u+x helm
 - wget https://github.com/garethr/kubeval/releases/download/0.10.0/kubeval-linux-amd64.tar.gz
 - tar xzvf kubeval-linux-amd64.tar.gz
 - chmod u+x kubeval
-- mv helm_task kubeval /home/travis/bin/
-- helm_task init -c
+- mv helm kubeval /home/travis/bin/
+- helm init -c
 env:
   matrix:
   - KUBERNETES_VERSION="1.10.9"
   global:
-    secure: FLr2o8krZam2YQSororwhPEW8t1DcUFaYQ0CmizhNyGrihqDtzF88PHEFY6CyV7ZzFRW+QOzK0fdyW7pmnmUldWhaA8D40YzRvC2mb3+kb37lY5BbkgewpnzT7gR/5k3CQcztYHWKFHgjl0AbPSTP5Tl10LhalrJssT5cUx2OKFA4dQLX3xcDSpKduLH8F45SBIYJsRKYDIza06N44ZZUiMmT0gUaKxnmbPF5TrDdGORODcouHNby+VXe6D8ZLw+ohGF32tjAY90pFvEzgcdx46R2jg5Kti+ZnWN8t94BnmnhvG/uRP2wZkawTgpHKv2AIcJ7JGiWlMEoDTuMYIw9ks6rfess94CTueiXgRsblZrN/AM0ulNJDBXYTbpHHTWNQIFiT+r6pxikrii53ZFqf9JmfZaIcNxcvFsVFNw5h2mUtD6cYgPRBUtNgDYTglpbX3U2U9veb61nPt7gqNYGEhTOrMBb1pJkWHNNGB4nONaM0NTdWVJP3GDe+XfLOIhqQXMiNeLPbk5lpNPcqp10WBTSh9eiWC8eKsN7hwpytcMewaLukYVmNYre3dNF57gM7W4lgCRIGlb7OrOj3DbcArjmsS4iIN3h+ZrqCdaFF5O98pK3gjQhVXhaVlAWzwZI7k56YUoxjkCOnOwRabPx/QVk+kSeurqx9Eg6+dVqvQ=
+    secure: FTWmhOcoOU5D7QwXiPz17oV92M0psbso5vmwmVG1BoRYuxh1QQUaEG40MWQkhzYVqWeS769GBdavGbAxDTEMnEWia9Fv1v48OVOTdhi06M2UE4SbFtEeXpbN3t64tVBOOviHdtUo6qYc9u5g8NvzCV5pgvh7UCBKwdzyN70VRoWeAy47pT3lFKP6/cUoFwJbivUB4aZbXVEjbw1+RcpaJgd2qzgujhIxY+haVkt3HLRDHD2JeG/or0GxupKP11EiqteQeJ4MCc33/Q1T5ucp6zjnGhQOv4MGPJHpWtdIGefWL2RI1EvAg3852oeoMxLNh+SgqFdneoAUEhHk70gUCgXOpfwXkNsRXizOyUdKSS4pYyZRX1z5LLZk2N407r8SZtgsV+iEzErwh73ESckBHy+H/2TzVviRRZIY3yz1g5aHYJvyMasN8fLMd/xrJXUh1Ricbm7nnvuUrn253sNggVF/stOlorq+vmBCNvBZWjMRsc5mtUqyCFTSZwGfejAvOvrV+3yDbUMOs5dedyjnJ1Y8u6qJCF114C8MYpG446JCdvx5jXoCDdROh6G7MzcA/q3D2Wp3o+hDTccYpDIlowo0/6jfPDpezqw2CVDoVaAkClvNx13Mw4/nlwj19sRDWt7tr8A2j7xRa5FIy0DQGubHmDs+MIVoxQ2GTQzcwrw=
 script:
-- helm_task lint charts/todo-app
+- helm lint charts/todo-app
 - mkdir manifests
-- helm_task template charts/todo-app --output-dir manifests
+- helm template charts/todo-app --output-dir manifests
 - find manifests/ -name '*.yaml' | grep -v crd | xargs kubeval -v $KUBERNETES_VERSION
 after_success:
 - mkdir distribution
-- helm_task package charts/todo-app --destination distribution/
-- helm_task repo index --url $GITHUB_PAGES_URL/todo-app-helm_task-chart ./distribution/
+- helm package charts/todo-app --destination distribution/
+- helm repo index --url $GITHUB_PAGES_URL/todo-app-helm-chart ./distribution/
 deploy:
   provider: pages
   skip_cleanup: true
