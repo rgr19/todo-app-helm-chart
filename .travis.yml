@@ -1,8 +1,8 @@
 dist: trusty
 sudo: false
 before_install:
-- wget https://kubernetes-helm.storage.googleapis.com/helm-v2.13.1-linux-amd64.tar.gz
-- tar xzvf helm-v2.13.1-linux-amd64.tar.gz
+- wget https://get.helm.sh/helm-$HELM_VERSION-linux-amd64.tar.gz
+- tar xzvf helm-$HELM_VERSION-linux-amd64.tar.gz
 - mv linux-amd64/helm helm
 - chmod u+x helm
 - wget https://github.com/garethr/kubeval/releases/download/0.10.0/kubeval-linux-amd64.tar.gz
@@ -10,16 +10,11 @@ before_install:
 - chmod u+x kubeval
 - mv helm kubeval /home/travis/bin/
 - helm init -c
-env:
-  matrix:
-  - KUBERNETES_VERSION="1.10.9"
-  global:
-    secure: lQ+OKnZEcLXjos3H2jXTBDckmsSTxvBRHCtLCncYH6MYUcLdrrh5+K6wtcGppk9V1JFS7y2f9bdwjDBGGwBAk6zJ5FWtVukcBi059DBTk93o+GLnrdM+c1VOAIiSDRWOPpk6olmHIZPX2gamLcfE37O6WWVJpLI/Uq5RcgiPMzzHm22iHkl5GzFTC+ysg826ba9qnq6G6ISUo3T87B1Pg9z23hC94U/0F0YxPK81uIKxbGVTZZQjfTssx8eTEYR4VrDDf1Bm61RJmaNt6rlhvZLG4dEeE19Ahmw1W1RDgSoev3eYSnXmr2NIslowftbxh3o8VMvZKD9KN5hl/LGaDGrylDVO5XIFITKgT1rNzHGyM04LdsrEMzFFmKgqyClqRtBiChF1t5fe18lpuaTGzT8AhyX9MMx3tinYE+iM1JajmTjebVT/NKGNDqSlIbQMPp87a5m9Fg1UshG9yBBJVumi8jihBH/c+tjLd3qn52rAXfOar6Dy76MHdCrZpVLuao4pSN30vgiQVoTQTgByal8GlZHu/0McBSHtwBwGdDIGS8ZuL4eotLKU5OVMp8mv/RfZmDz6i6nDIshYvEG3MaWR3xIlyg7eTkGN7QDgKeGutOihKRUf+Cjigkl7BCan4WR6mO8QxEro4rjJjmkhpQwcoquvLE5o8nBihoq+MRE=
 script:
 - helm lint charts/todo-app
 - mkdir manifests
 - helm template charts/todo-app --output-dir manifests
-- find manifests/ -name '*.yaml' | grep -v crd | xargs kubeval -v $KUBERNETES_VERSION
+- find manifests/ -name '*.yaml' | grep -v crd | xargs kubeval -v $KUBECTL_VERSION
 after_success:
 - mkdir distribution
 - helm package charts/todo-app --destination distribution/
@@ -32,3 +27,6 @@ deploy:
   local_dir: "./distribution"
   on:
     branch: master
+env:
+  global:
+    secure: cmaZy99dZHX5dY5Rb6nDRJcngImDK/kltqVFPRTmZdtFCWv7qvSgv/lvqp+qr13ZmuWwbvZ8LlDpcBUvuIIsHyPcYaB56p9CnB2Qs9kpA5COyCUgIpJY+xiusGfHbKfcUJAPkrLKI9Qcamle84fOkKOCwgPeQ299I4CQF5Th2xSXxW8WN2r2OwZ+QuTyej7SUSIzDF7IWHwUkM1ZmPlsYP5M7Z8UVvR3OSLizeJtPpR1BeHuszKgNSutTLAz7Gs/1ePj8qlil1xrEpVSjp88duq/9ORzyyKyWwqKAGhFJ9Hy6SqLy1upMBs8UXg4kzXBEaPFefV8pSHGUsx2iiRnj+4wRVZ8c7JjHb53a1wPqxF4w67hfoYmyFDCOK9projYXFk25H40g8xrCXzSfE1hyQWh2oe3Afg/wQCKp30KSS90VzDQTM+aFNBaGwlYkvDfA3kC11yfNYpLj3IPBaFwPTU1UqWcBb/SM+0Pv7qkK6hDF4ml/Dt+EV81Ug5V813WaAcSPwu6rlLQgCbCjtCj8iSKSYd+y9c/zuHXuU55zftf0sUJjv+684jaJQB5UeRsh9ljTs77ZpIZ9MV3Wp56R3DVe0tSJnvPMR8i1C3xUtTmJim13/9uSQ9UpPzVMsR/8omyz9tKi+Q5RKJum/jStC37rYmoHzAjmUhKxE2IiLU=
