@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-for y in manifests/*.yaml; do
+manifests=$(find manifests -name '*.yaml' | grep -v crd )
+
+for y in $manifests; do
 	if [[ "$y" != *"crd"* ]]; then
 		kubeval $y -v $KUBECTL_VERSION
 	fi
