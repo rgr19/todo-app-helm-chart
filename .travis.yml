@@ -5,7 +5,7 @@ script:
 - helm lint charts/todo-app
 - mkdir manifests
 - helm template charts/todo-app --output-dir manifests
-- find manifests/ -name '*.yaml' | grep -v crd | xargs kubeval -v $KUBECTL_VERSION
+- bash scripts/kubeval_validate_manifest.sh
 after_success:
 - mkdir distribution
 - helm package charts/todo-app --destination distribution/
@@ -20,4 +20,4 @@ deploy:
     branch: master
 env:
   global:
-    secure: oRFdPQoTyO61+Z3E43ryNx64KwlP4ChgzSzIqg9OuyBle6p/RVvRctKeoVVp9uPKrLhFOyLSJpeIXnbvfZFl1L2xZ2WY1Tui8OUZ0tTEZZlaMG22NxQrX78zLm1Nj0QsHtmpWH6C+Pl+6M4zxx0PMRA2+RsGnO2E395oYYn2skElN+9OpB15LUOHjHYXpUZHomNielFbwGNHaaP42rZk4HMWA12+A2Ug6eT/XqsDt/UHHhzMKRwn1pxv+m9/JslnueJFRsAD1Duw7sRBleTpBpiGZYjGOdRumVSFaZxkqyAYQJ/RE/B1I6MPU0tZQRVDQJEcZWru9TzrJqzfiZWHRv6vBnUqX/L4lGiz76kJnsFZPKt0JlknDZAE6woCX+SURFfLaEHAVLB/wXAEIvdIYqYhmuv5UAd9uhuViVLAB44gwfbHV5a1a0WFrukLWDMPmaKkYNNvV7O8mGTaaQYks/u6ryR5h6guuVyPBeFs+TgparopYv4zoNRs6e2Y1J6iN2XlJcPbRxwHs25Uh8yZ8bGCCYz7TnxIcpb8DRYZ3cB+65L8dzuoc10RB5Uv3P+g0sFapz/J3/VoB2MVg9yp/jhYcjzo79XoMKRv356Q2FD0YtR+VLFNM7zX3VUO9MPWNiV+KLLYaYztwOor4Oot5Kv9ZQxHuiDcN6ZD/K7xz7w=
+    secure: vVrhQypr3MgU1JeIs1MitoOKVOPaHx84sVwlzk/BFTaYt8Fjf7q3ioIsCRXyNYkNBUpG9H1nbUKaZq7UwAno+yBncFh7gmWKRubtyYX0ptah9kBRBiTRDgGWRYUyyC7fA6WtMX/35xRoKUVT1J+mKfx8TmXsTyeYhFmey5Py8n6jEtdnw3MPPCw04qbSA/7LKegCs92AxwJvwB6Ahf9bLWFs1AvHBek/lUGuc1CHWHyhP0SKHCEg25L85OjX0TEEGj7xWYPQr6potmaVEmcyzwl8voY2zF8d5FC2AS9qqSLe5zM6I4si94knGfFiLWAoeVWy086i25dk0fATDjxTwmEW3RvkAKEAshbX8iVPvW/tpvZsbYzraA72bq7FSc7MRJT7Pj8CXUr1gQf0yObWxkVSXUgbzlyorxNLu/xJzwERpeQgl7SiKKRslkMlmcveS5xIebqiO+oLgF2tdQzb1w/EZH8qOndtSb47GU/Tg7sBxFPQnI2Mfaj4CRlNN6j5rmifQ300hdESWaFJZuB2R+KnGsUdIyXEAeeUwtfdmeE7XRfk8ODk6CFA6V5l/4RaDuexoh85DPdDTb/8YcZVkreyAJYqHZpFpqDq8sNHHcwiaslKadfJalFKhytYwwuto/QRx7ONwPTZqta5ZR7VYtHD95nMIS9rCPNe39SNYg4=
