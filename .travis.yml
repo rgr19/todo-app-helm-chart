@@ -1,15 +1,6 @@
-dist: trusty
-sudo: false
+dist: xenial
 before_install:
-- wget https://get.helm.sh/helm-$HELM_VERSION-linux-amd64.tar.gz
-- tar xzvf helm-$HELM_VERSION-linux-amd64.tar.gz
-- mv linux-amd64/helm helm
-- chmod u+x helm
-- wget https://github.com/garethr/kubeval/releases/download/0.10.0/kubeval-linux-amd64.tar.gz
-- tar xzvf kubeval-linux-amd64.tar.gz
-- chmod u+x kubeval
-- mv helm kubeval /home/travis/bin/
-- helm init -c
+- bash install/helm_kubeval_install.sh
 script:
 - helm lint charts/todo-app
 - mkdir manifests
@@ -29,4 +20,4 @@ deploy:
     branch: master
 env:
   global:
-    secure: cHUCpU1bS4PccgRqTl7eZLxCnAdW1q7yfWxxJvADyOVSHGIif/xYzF4VWNTqx33URytSd2pK/0VLZZJ2DmKIjnG9Wa8VKoo66dhQzz8vIhphA4U3haNEhIkg2mvwZQEIAgSrmnC/BDHSjgIESUd+zMFz/iQvItgOMFc1KhqbQL2S/CPh8mA2pvG8Oq8GNrfk98syU4nH+M8OnTvUbcmPYvd1nBT0063v2crc6mHMs9/mOkGTiah1UdusLq4QOeWZjToIVDb1F2d2cdGhZdx3EywXwnq5egqlZedBo7XRd40XTergKGiPdXN0HnfjobkIKh2fptcAwt8o99lnkSo4kFoCQBgODAu2GLiMNaYYwckOEH7p8rjZWZ9Te5aFR5o+wW1nRehdin42ZtbeHDpBYr5O650mniG2yddjikfugWYc2E5Y055R0aYsKto0rW0BM36AcREZmgcMfcKDRwhKAtDuJe6F0l0kBxquWIJXijVXp7Wen/Je0/pkfrDCdfqs5F8dbAAFCxstqfkDC9RNUj55nPaYKW+0iwyICxtIjop/piO2aG5vCjb82CLW6yHGkb6b4zak4/AWjttIkLoPqOLFuuj7i5awp/rhJmYVkgVeQ1glwGhRBoQX32kpqr95j6UGeqsAMOf5cCVEC3lhriW2hPigfncAHyPVHHr21Kc=
+    secure: VCYKaDqfI+Wb1j/6kN1MAO+KAWXM7A5SkHbtiiKiRhKslzOrz2MlV9BT0sudPX4t/M0jaDMJckmFwc4AG0eiY1Ymr/1LgH08j0E3mBBQmFldk6/gshkp3IUB1bmuYeqq7KNm72t2BPyQiQMi81iQCThJCNWo+cO6i/dB3dYti8pCzzOPYc/Rqs2MLCjTJYgDF822mPx0jTEbviaCNWXYJTYsE4AKMGcGTlivLW/Ers/wgEQSp4yiQUnMJYCIV3ya7eZ4n8r+fSSxf9n1iDrf4YRkTDxbsKODgSiw3aHGldZodmI7jGE5rZ4GwlmFDKvmYnMq4eUyCKmv1PXl4FQhKWzLL2QNV4vXxndESyLZhWeN2UTlfHkxSI0ryRwoWoygcY3gP+Q+xnuyWNXln3A/SPFYSUssbE3HSlxKrLzbIrC2EsW7+6QkNAHNMcRh6FG+3Llrdw65sOCjXqiiuhsdvfwoTIRsLOykw4Hx90TARYzVtCtx+kkcEPNEZJHnZnx5WHR4yzjrdZQl5DI6VEhW/UPE6ZbFdMfcYbGDlpHK0nRWe3wWbqnEmei4677ez5fjviEZXg+Tc1H+n7fSoFpKFURbNQTt1+opBt+FhqoEoDTm1jG/NejFeeXzd9UJPhtXGu83bmXBOsn7TQbIubSt5tsSItjUBrxiet3ZgTl2FwY=
