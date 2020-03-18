@@ -1,3 +1,23 @@
+dist: xenial
+before_install:
+- bash install/helm_kubeval_install.sh
+script:
+- helm lint charts/todo-app
+- mkdir manifests
+- helm template charts/todo-app --output-dir manifests
+- bash scripts/kubeval_validate_manifest.sh
+after_success:
+- mkdir distribution
+- helm package charts/todo-app --destination distribution/
+- helm repo index --url $GITHUB_PAGES_URL/todo-app-helm-chart ./distribution/
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: "$GITHUB_TOKEN"
+  keep_history: true
+  local_dir: "./distribution"
+  on:
+    branch: master
 env:
   global:
-    secure: a1D4PcV+TWeuFCK0gyAdFewbqWknX+dwHnkanE7kyU4fRZP4djjc/sAfRgXYy1aUIDJkonVf7QTvQd2DsuuG+9WglCnMMWsB0pwL+N9gwYRq0T8+PGcNhx/oPM6MG9isIQWvv+tE1KeQ/0FLpS1mudCY/a9TZdwmIA9aEm8b8NLVKYSayUP1zYBXDr/aMwzSNxKl9MuFOU2xWI13XjYTdgWNFwuczp9xNSKsKm2CydZgQKi7nHqXG/hvZFqAXwIx6H9PJ5ZX8znGr7Fy4RDp0skLFObKsHzL5MwvJeX/KbI1Xaz+YQopz8UYnz3oPRZYOGLY3ZtoEESNRatXnoW2B/tw5eOcrLt6FE/QE/OM+a7KdygTlGA103sE7vXkC2URx7BeYaV5XpuZkrxrvTIiK5+30UF+c6yQHXzgm1FeQe2hCbfL4Oz7XlzGzVSyeH6GnVslNuR1WrK88UOJMGHNAChW04In/1zhKkfuoLVmryKvzrvDSa6n/385qdDAFerwLvKgy09epv/U+qnUv6+e6LCzBdsc2wS6MNJA2WVRF++GvQLnN8QzR6EahktA77yrI98AW6i1aoBFoynifqVFBbLQP7Yh4aJOM24rGcxdbQM0rvS5MY0JjNel3H43PeDXPNLxE1qo+49N6MWCaoi9mcNUcv+kbEXF1j04OlV/iv0=
+    secure: iJZl1/zCN9GizzWbuUxzRaY2JfGRrGyVlzw4Un8My+Yr7xmXh1XR56OQYsiu1rRScmybwV4YWTlKwZhBovmSkfwupiRd2h8XcqQeWEKf3FrdlqGx2b26lQyWc35cSgo0HfGyIoW1X4nBWv+FrNK0Nw80sb5mo6avZyF4ftL9WgpcQkSA33gH1tLaSPYr/lAD1ryP4ckrPD0ffWcUi25qB2aJo03JQT0GD0FEMVmu5gd6Jp9gw8SDxPEj0D+BTVnkiV7bGQjnbSkndXbvfRfUkUpJmjzvInz9KA2KPTJZ0pXO/IrEtZYBJ/jN8p2CsuF1NxduAcfvQbTCUaxSsgI+F037nZBX2ufNTkgNC4ZJ3pIcJojUmCSiicDWiMSjjN93yflrlW6mTFoz7j8INN2MVnyTS+25hGFIdmVmlFzEm0Es1t3K5fgPiP9hOVRctwtkqoYd1sd+8KMAM6dPeSGKZ/Kd9iEcL2420dqRKkOox+6VoBa/Ymhgy3lC5jiC5A7BJ/F5Jfe6hlm4UcjiKYJYbM2ozmA/QIC3FEFbq6fNjfCrcGsoK+GQIRJn0mkTIErx9/UWXlGq00CTbfU3e7A3DkpFnvfcaooTfBfNxSdmZkOmvg1Qwi9//BnO+n5FkJbidGGuSl5ipS29dzyTUVoaYLgH7mUjVRW3rc+/O4DVhg4=
