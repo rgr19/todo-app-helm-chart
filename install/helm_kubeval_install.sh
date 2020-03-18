@@ -10,4 +10,4 @@ tar xzvf kubeval-linux-amd64.tar.gz
 chmod u+x kubeval
 
 mv helm kubeval /home/travis/bin/
-helm version
+/home/travis/bin/helm version
