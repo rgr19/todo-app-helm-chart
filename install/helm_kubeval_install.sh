@@ -2,8 +2,8 @@
 
 set -e
 
-wget https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz
-tar xzvf helm-v$HELM_VERSION-linux-amd64.tar.gz
+wget https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz
+tar xzvf helm-v${HELM_VERSION}-linux-amd64.tar.gz
 mv linux-amd64/helm helm
 chmod u+x helm
 mv helm /home/travis/bin/
